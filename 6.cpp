@@ -1,3 +1,8 @@
+/*Q6.
+Write a C program to simulate a DFA that accepts all binary strings that contain an even number of 1s.  
+Use a small transition table (2 states × 2 symbols) and print “Accepted” or “Rejected” for the input string.
+
+*/
 #include <iostream>
 #include <string>
 using namespace std;
