@@ -1,48 +1,55 @@
 /*Design and implement in C a DFA simulator that accepts all binary strings (over 0 and 1) that end with the substring 01.  
 The program should read one input string and print “Accepted” if it ends with 01, otherwise “Rejected”.
 */
-#include <stdio.h>
-#include <string.h>
+#include <bits/stdc++.h>
+#include<string>
+using namespace std;
+typedef enum
+{
+    s0,
+    s1,
+    s2
 
-typedef enum { S0, S1, S2 } State;
+} state;
 
-int main() {
-    char input[100];
-    printf("Enter a binary string: ");
-    scanf("%s", input);
+int main()
+{
+    string input;
+    cout << "Enter a binary string :";
+    cin >> input;
 
-    State current = S0;
+    state current = s0;
 
-    for (int i = 0; i < strlen(input); i++) {
-        char c = input[i];
-
-        if (c != '0' && c != '1') {
-            printf("Invalid input (only 0 and 1 allowed)\n");
+    for (char c : input)
+    {
+        if (c != '0' && c != '1')
+        {
+            cout << "Invalid input (only 0 and 1 allowed )" << endl;
             return 0;
         }
+        switch (current)
+        {
+        case s0:
+            if (c == '0')
+                current = s1;
+            else
+                current = s0;
+            break;
 
-        switch (current) {
-            case S0:
-                if (c == '0') current = S1;
-                else current = S0;
-                break;
+        case s1:
+          if(c=='0')current=s1;
+          else  current=s2;
+          break;
 
-            case S1:
-                if (c == '0') current = S1;
-                else current = S2;
-                break;
-
-            case S2:
-                if (c == '0') current = S1;
-                else current = S0;
-                break;
+          case s2:
+          if(c=='0')current=s1;
+          else current=s0;
+          break;
         }
     }
-
-    if (current == S2)
-        printf("Accepted\n");
+    if(current==s2)
+    cout<<"accepted"<<endl;
     else
-        printf("Rejected\n");
-
-    return 0;
+    cout<<"Rejected"<<endl;
 }
+
