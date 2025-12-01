@@ -1,46 +1,46 @@
-#include <stdio.h>
-#include <string.h>
+/*Q4.
+The grammar S → a S b | a b generates strings of the form a^n b^n.  
+Write a recursive-descent C program that reads a string over {a, b} and checks whether it belongs to this language.
+*/
 
+#include <bits/stdc++.h>
+using namespace std;
 char input[100];
 int pos = 0;
+int parse_s()
+{
+    if (input[pos] != 'a')
+        return 0;
 
-// S → a S b | a b
-int parse_S() {
-    if (input[pos] != 'a') 
-        return 0;          // Must start with 'a'
+    pos++;
 
-    pos++;                // consume 'a'
-
-    // Check if next is 'a' → then must be a S b
-    if (input[pos] == 'a') {
-        if (!parse_S()) 
+    if (input[pos] == 'a')
+    {
+        if (!parse_s())
             return 0;
 
-        // After recursive S, next must be 'b'
-        if (input[pos] == 'b') {
-            pos++;        // consume 'b'
+        if (input[pos] == 'b')
+        {
+            pos++;
             return 1;
         }
         return 0;
     }
-
-    // Otherwise case: S → a b
-    if (input[pos] == 'b') {
-        pos++;            // consume 'b'
+    if (input[pos] == 'b')
+    {
+        pos++;
         return 1;
     }
-
     return 0;
 }
-
-int main() {
-    printf("Enter string over {a, b}: ");
-    scanf("%s", input);
-
-    if (parse_S() && input[pos] == '\0')
-        printf("Valid: belongs to a^n b^n language.\n");
+int main()
+{
+    cout << "Enter string over {a,b} :";
+    cin >> input;
+    if (parse_s() && input[pos] == '\0')
+    {
+        cout << "Valid:Belong to a^n b^n language ." << endl;
+    }
     else
-        printf("Invalid string.\n");
-
-    return 0;
+        cout << "Invalid string" << endl;
 }
