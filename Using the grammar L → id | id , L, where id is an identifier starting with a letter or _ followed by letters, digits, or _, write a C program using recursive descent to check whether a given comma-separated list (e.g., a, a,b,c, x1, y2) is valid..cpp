@@ -1,1 +1,0 @@
-//Using the grammar L → id | id , L, where id is an identifier starting with a letter or _ followed by letters, digits, or _, write a C program using recursive descent to check whether a given comma-separated list (e.g., a, a,b,c, x1, y2) is valid.
