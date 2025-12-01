@@ -1,3 +1,14 @@
+/*Q7.
+An NFA has two states: q0 (start) and q1 (accept).  
+Transitions:
+- From q0 on input a → q1
+- From q1 on input b or c → q1
+
+This NFA accepts strings of the form a(b|c)*.  
+Write a C program that simulates this NFA (by tracking the set of current states) and prints whether a given input string is accepted.
+*/
+
+
 #include <iostream>
 #include <set>
 #include <string>
