@@ -3,119 +3,82 @@
 #include <cctype>
 using namespace std;
 
-string input;
-int pos = 0;
+string s;
+int i = 0;
 
-// Skip spaces
-void skip_spaces() {
-    while (isspace(input[pos])) pos++;
+bool id() {
+    if (!(isalpha(s[i]) || s[i] == '_'))
+        return false;
+
+    i++;
+    while (isalnum(s[i]) || s[i] == '_')
+        i++;
+
+    return true;
 }
 
-// id → letter/_ (then letter/digit/_)
-// OR integer → digit+
-bool parse_id() {
-    skip_spaces();
+bool number() {
+    if (!isdigit(s[i]))
+        return false;
 
-    // Case 1: integer
-    if (isdigit(input[pos])) {
-        while (isdigit(input[pos])) pos++;
+    while (isdigit(s[i]))
+        i++;
+
+    return true;
+}
+
+bool E(), Ep(), T(), Tp(), F();
+
+bool F() {
+    if (s[i] == '(') {
+        i++;  // consume '('
+        if (!E()) return false;
+        if (s[i] != ')') return false;
+        i++;  // consume ')'
         return true;
     }
 
-    // Case 2: identifier
-    if (isalpha(input[pos]) || input[pos] == '_') {
-        pos++;
-        while (isalnum(input[pos]) || input[pos] == '_')
-            pos++;
+    if (id() || number())
         return true;
-    }
 
     return false;
 }
 
-/*
-Grammar:
-F → ( E ) | id
-*/
-bool parse_F() {
-    skip_spaces();
-
-    if (input[pos] == '(') {
-        pos++;
-        if (!parse_E()) return false;
-
-        skip_spaces();
-        if (input[pos] == ')') {
-        pos++;
-        return true;
-        }
-        return false;
+bool Tp() {
+    if (s[i] == '*' || s[i] == '/') {
+        i++;           // consume operator
+        if (!F()) return false;
+        return Tp();   // recursive
     }
-
-    return parse_id();
+    return true;       // ε
 }
 
-/*
-T' → * F T' | / F T' | ε
-*/
-bool parse_Tdash() {
-    skip_spaces();
+bool T() {
+    return F() && Tp();
+}
 
-    while (input[pos] == '*' || input[pos] == '/') {
-        char op = input[pos];
-        pos++;
-
-        if (!parse_F()) return false;
-
-        skip_spaces();
+bool Ep() {
+    if (s[i] == '+' || s[i] == '-') {
+        i++;         // operator
+        if (!T()) return false;
+        return Ep(); // recursive
     }
-
-    return true;  // ε allowed
+    return true;     // ε
 }
 
-/*
-T → F T'
-*/
-bool parse_T() {
-    if (!parse_F()) return false;
-    return parse_Tdash();
-}
-
-/*
-E' → + T E' | - T E' | ε
-*/
-bool parse_Edash() {
-    skip_spaces();
-
-    while (input[pos] == '+' || input[pos] == '-') {
-        char op = input[pos];
-        pos++;
-
-        if (!parse_T()) return false;
-
-        skip_spaces();
-    }
-
-    return true; // ε allowed
-}
-
-/*
-E → T E'
-*/
-bool parse_E() {
-    if (!parse_T()) return false;
-    return parse_Edash();
+bool E() {
+    return T() && Ep();
 }
 
 int main() {
     cout << "Enter expression: ";
-    getline(cin, input);
-    input.push_back('\0');
+    getline(cin, s);
+    s.push_back('\0'); // end marker
 
-    if (parse_E() && input[pos] == '\0')
-        cout << "Valid expression.\n";
+    if (E() && s[i] == '\0')
+        cout << "Valid expression\n";
     else
-        cout << "Invalid expression.\n";
+        cout << "Invalid expression\n";
 
     return 0;
 }
