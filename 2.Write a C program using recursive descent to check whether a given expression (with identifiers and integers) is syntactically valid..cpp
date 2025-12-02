@@ -1,3 +1,14 @@
+/*Q2.
+Consider the expression grammar:
+
+- E → T E'
+- E' → + T E' | - T E' | ε
+- T → F T'
+- T' → * F T' | / F T' | ε
+- F → ( E ) | id
+
+Write a C program using recursive descent to check whether a given expression (with identifiers and integers) is syntactically valid.*/
+
 #include <iostream>
 #include <string>
 #include <cctype>
