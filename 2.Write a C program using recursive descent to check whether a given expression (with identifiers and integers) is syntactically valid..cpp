@@ -40,6 +40,7 @@ bool number() {
 
 bool E(), Ep(), T(), Tp(), F();
 
+//F → (E) | id | number
 bool F() {
     if (s[i] == '(') {
         i++;  // consume '('
@@ -54,7 +55,7 @@ bool F() {
 
     return false;
 }
-
+//T' → *F T' | /F T' | ε
 bool Tp() {
     if (s[i] == '*' || s[i] == '/') {
         i++;           // consume operator
@@ -63,11 +64,12 @@ bool Tp() {
     }
     return true;       // ε
 }
+//T → F T'
 
 bool T() {
     return F() && Tp();
 }
-
+//E' → + T E' | - T E' | ε
 bool Ep() {
     if (s[i] == '+' || s[i] == '-') {
         i++;         // operator
@@ -76,7 +78,7 @@ bool Ep() {
     }
     return true;     // ε
 }
-
+//E → T E'
 bool E() {
     return T() && Ep();
 }
