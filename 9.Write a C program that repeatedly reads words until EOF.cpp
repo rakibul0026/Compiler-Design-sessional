@@ -1,3 +1,11 @@
+/*Q9.
+Write a C program that repeatedly reads words until EOF and classifies each word as:
+- a C keyword (from a small fixed list, e.g., int, if, else, for, while, return, char, float, double, void),
+- a valid identifier,
+- or an invalid token.
+
+Print the classification for each word.
+*/
 #include <iostream>
 #include <string>
 #include <cctype>
